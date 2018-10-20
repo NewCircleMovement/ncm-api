@@ -1,0 +1,3 @@
+class Center < Epicenter
+    
+end 
