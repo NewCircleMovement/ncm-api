@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: fruit_balances
+# Table name: balances
 #
 #  id          :bigint(8)        not null, primary key
 #  holder_id   :integer

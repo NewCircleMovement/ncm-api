@@ -14,5 +14,8 @@
 #
 
 class Center < Epicenter
+
+  validates :slug, :presence => true
+  validates :name, :presence => true
     
 end 

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       resources :fruits
       
 
-      post 'transaction/giver/:giver_id/receiver/:receiver_id/fruit/:fruit_id/amount/:amount' => 'fruit_transactions#create'
+      post 'transaction/giver/:giver_id/receiver/:receiver_id/fruit/:fruit_id/amount/:amount' => 'transactions#create'
     end
   end
 

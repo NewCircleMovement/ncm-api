@@ -23,27 +23,15 @@ module Api
       def create
         giver = Epicenter.find(params[:giver_id])
         receiver = Epicenter.find(params[:receiver_id])
-        fruit = Fruit.find(params[:fruit_id])
+        fruit_id = params[:fruit_id]
         amount = params['amount']
 
-        giver.fruit_basket.has_enough_fruit?(fruit.id, amount)
-
-        permitted_params = { 
-          :giver_id => giver.id, :giver_type => giver.type,
-          :receiver_id => receiver.id, :receiver_type => receiver.type,
-          :fruit_id => fruit.id, :amount => params[:amount]
-        }
-        
-        transaction = FruitTransaction.new(permitted_params)
-
-        
-        # if @epicenter.save
-        #   render json: @epicenter, status: :created
-        # else
-        #   render json: @epicenter.errors, status: :unprocessable_entity
-        # end
-        render json: true
-
+        if giver.has_enough_fruit?(fruit_id, amount)
+          giver.give_fruit_to(receiver, fruit_id, amount)
+          render json: { :success => true, :response => 'Successful transaction' }, status: 200
+        else
+          render json: { :success => false, :response => 'Not enough fruit' }, status: 202
+        end
       end
 
 

@@ -18,10 +18,6 @@ class Epicenter < ApplicationRecord
 
   self.inheritance_column = :type
 
-  validates :slug, :presence => true
-  validates :name, :presence => true
-  validates :type, :presence => true
-
   scope :users, -> { where(type: 'User') }
   scope :events, -> { where(type: 'Event') }
   scope :centers, -> { where(type: 'Center') }

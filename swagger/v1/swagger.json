@@ -6,6 +6,17 @@
   },
   "paths": {
     "/api/v1/epicenters": {
+      "get": {
+        "summary": "Retrieves list of Epicenters",
+        "tags": [
+          "Epicenters"
+        ],
+        "responses": {
+          "200": {
+            "description": "epicenters retrieved"
+          }
+        }
+      },
       "post": {
         "summary": "Creates an Epicenter",
         "tags": [
@@ -21,11 +32,17 @@
             "schema": {
               "type": "object",
               "properties": {
+                "id": {
+                  "type": "integer"
+                },
                 "type": {
                   "type": "string"
                 },
                 "parent_id": {
-                  "type": "integer"
+                  "type": [
+                    "integer",
+                    null
+                  ]
                 },
                 "slug": {
                   "type": "string"
@@ -34,7 +51,10 @@
                   "type": "string"
                 },
                 "description": {
-                  "type": "string"
+                  "type": [
+                    "string",
+                    null
+                  ]
                 }
               },
               "required": [
@@ -56,6 +76,69 @@
       }
     },
     "/api/v1/epicenters/{id}": {
+      "put": {
+        "summary": "Updates an epicenter by ID",
+        "tags": [
+          "Epicenters"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "epicenter",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "parent_id": {
+                  "type": [
+                    "integer",
+                    null
+                  ]
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    null
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "slug",
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "epicenter updated"
+          }
+        }
+      },
       "get": {
         "summary": "Retrieves an epicenter by ID",
         "tags": [
