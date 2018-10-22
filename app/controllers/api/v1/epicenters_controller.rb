@@ -50,7 +50,7 @@ module Api
 
         def set_epicenter
           epicenters = Epicenter.get(@type)
-          if is_integer?(params['id'])
+          if params['id'].is_integer?
             @epicenter = epicenters.find_by(id: params[:id])
           else
             @epicenter = epicenters.find_by(slug: params[:id])

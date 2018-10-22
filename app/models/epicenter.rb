@@ -1,4 +1,20 @@
+# == Schema Information
+#
+# Table name: epicenters
+#
+#  id          :bigint(8)        not null, primary key
+#  type        :string
+#  parent_id   :integer
+#  level       :integer
+#  slug        :string
+#  name        :string
+#  description :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
 class Epicenter < ApplicationRecord
+  include FruitBasket
 
   self.inheritance_column = :type
 
@@ -6,7 +22,12 @@ class Epicenter < ApplicationRecord
   scope :events, -> { where(type: 'Event') }
   scope :centers, -> { where(type: 'Center') }
 
-  # include article type in response
+  has_one :fruit, as: :owner, :dependent => :destroy
+  has_many :balances, as: :holder
+  has_many :transactions, as: :giver
+
+
+  # include type in response
   def serializable_hash options=nil
     super.merge "type" => type
   end
