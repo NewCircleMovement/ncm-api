@@ -6,9 +6,9 @@ module Api
 
       def index
         if params[:level].present?
-          @epicenters = Epicenter.get(@type).where(:level => params[:level])
+          @epicenters = @model.where(:level => params[:level])
         else
-          @epicenters = Epicenter.get(@type)
+          @epicenters = @model.all
         end
         
         render json: @epicenters
@@ -21,7 +21,7 @@ module Api
 
 
       def create
-        @epicenter = Epicenter.of_type(@type).new(epicenter_params)
+        @epicenter = @model.new(epicenter_params)
         if @epicenter.save
           render json: @epicenter, status: :created
         else
@@ -46,21 +46,24 @@ module Api
       private
         def set_type
           @type = params[:type]
+          if @type
+            @model = Epicenter.get(@type)
+          else
+            @model = Epicenter
+          end
         end
 
         def set_epicenter
-          epicenters = Epicenter.get(@type)
+
           if params['id'].is_integer?
-            @epicenter = epicenters.find_by(id: params[:id])
+            @epicenter = @model.find_by(id: params[:id])
           else
-            @epicenter = epicenters.find_by(slug: params[:id])
+            @epicenter = @model.find_by(slug: params[:id])
           end
         end
 
         def epicenter_params
-          params.require(:epicenter).permit(
-            :id, :type, :slug, :level, :name, :description
-          )
+          params.require(:epicenter).permit(:id, :type, :slug, :level, :name, :description)
         end
     end
   end

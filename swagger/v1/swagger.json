@@ -5,9 +5,9 @@
     "version": "v1"
   },
   "paths": {
-    "/epicenters": {
+    "/api/v1/epicenters": {
       "post": {
-        "summary": "Creates an Epicenter blog",
+        "summary": "Creates an Epicenter",
         "tags": [
           "Epicenters"
         ],
@@ -51,6 +51,124 @@
           },
           "422": {
             "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/epicenters/{id}": {
+      "get": {
+        "summary": "Retrieves an epicenter by ID",
+        "tags": [
+          "Epicenters"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "epicenter not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "parent_id": {
+                  "type": [
+                    "integer",
+                    null
+                  ]
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    null
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "type",
+                "slug",
+                "name"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/epicenters/{slug}": {
+      "get": {
+        "summary": "Retrieves an epicenter by slug",
+        "tags": [
+          "Epicenters"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "epicenter not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "parent_id": {
+                  "type": [
+                    "integer",
+                    null
+                  ]
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    null
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "type",
+                "slug",
+                "name"
+              ]
+            }
           }
         }
       }

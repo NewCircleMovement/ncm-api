@@ -1,10 +1,19 @@
 require 'swagger_helper'
 
+EPICENTER_PROPERTIES = {
+  id: { type: :integer },
+  type: { type: :string },
+  parent_id: { type: [:integer, nil] },
+  slug: { type: :string },
+  name: { type: :string },
+  description: { type: [:string, nil] }
+}
+
 describe 'Epicenters API' do
 
-  path '/epicenters' do
+  path '/api/v1/epicenters' do
 
-    post 'Creates an Epicenter blog' do
+    post 'Creates an Epicenter' do
       tags 'Epicenters'
       consumes 'application/json'
       parameter name: :epicenter, in: :body, schema: {
@@ -25,41 +34,56 @@ describe 'Epicenters API' do
       end
 
       response '422', 'invalid request' do
-        let(:blog) { { slug: 'tinkuy' } }
+        let(:epicenter) { { slug: 'tinkuy' } }
         run_test!
       end
     end
   end
 
-  # path '/blogs/{id}' do
+  path '/api/v1/epicenters/{id}' do
 
-  #   get 'Retrieves a blog' do
-  #     tags 'Blogs'
-  #     produces 'application/json', 'application/xml'
-  #     parameter name: :id, :in => :path, :type => :string
+    get 'Retrieves an epicenter by ID' do
+      tags 'Epicenters'
+      produces 'application/json'
+      parameter name: :id, :in => :path, :type => :integer
 
-  #     response '200', 'blog found' do
-  #       schema type: :object,
-  #         properties: {
-  #           id: { type: :integer },
-  #           title: { type: :string },
-  #           content: { type: :string }
-  #         },
-  #         required: [ 'id', 'title', 'content' ]
+      response '200', 'epicenter found' do
+        schema type: :object,
+          properties: EPICENTER_PROPERTIES,
+          required: [ 'id', 'type', 'slug', 'name' ]
 
-  #       let(:id) { Blog.create(title: 'foo', content: 'bar').id }
-  #       run_test!
-  #     end
+        let(:id) { Epicenter.create(type: 'Center', slug: 'tinkuy', name: 'Tinkuy').id }
+        run_test!
+      end
 
-  #     response '404', 'blog not found' do
-  #       let(:id) { 'invalid' }
-  #       run_test!
-  #     end
+      response '200', 'epicenter not found' do
+        let(:id) { 'invalid' }
+        run_test!
+      end
 
-  #     response '406', 'unsupported accept header' do
-  #       let(:'Accept') { 'application/foo' }
-  #       run_test!
-  #     end
-  #   end
-  # end
+    end
+  end
+
+  path '/api/v1/epicenters/{slug}' do
+
+    get 'Retrieves an epicenter by slug' do
+      tags 'Epicenters'
+      produces 'application/json'
+      parameter name: :slug, :in => :path, :type => :string
+
+      response '200', 'epicenter found' do
+        schema type: :object,
+          properties: EPICENTER_PROPERTIES,
+          required: [ 'id', 'type', 'slug', 'name' ]
+
+        let(:slug) { Epicenter.create(type: 'Center', slug: 'tinkuy', name: 'Tinkuy').id }
+        run_test!
+      end
+
+      response '200', 'epicenter not found' do
+        let(:slug) { 'invalid' }
+        run_test!
+      end
+    end
+  end
 end
