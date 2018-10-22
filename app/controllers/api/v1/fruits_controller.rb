@@ -1,6 +1,6 @@
 module Api
   module V1
-    class fruitsController < BaseController
+    class FruitsController < BaseController
       before_action :set_fruit, only: [:show, :update, :destroy]
 
       def index
