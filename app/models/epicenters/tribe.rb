@@ -11,8 +11,8 @@
 #  updated_at :datetime         not null
 #
 
-require 'rails_helper'
-
-RSpec.describe Tribe, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+class Tribe < Epicenter
+  belongs_to :mother, :class_name => "Movement", :foreign_key => 'mother_id'
+  # has_many :memberships, through: :membershipcards, source: :owner, source_type: 'Tribe'
+  has_many :users, through: :membershipcards, source: :owner, source_type: 'User'
 end

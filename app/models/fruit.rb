@@ -18,5 +18,8 @@ class Fruit < ApplicationRecord
   validates :monthly_decay, :presence => true, 
     :numericality => { only_float: true, greater_than: 0.01 }, 
     :inclusion => { in: 0..1 }
+
+  has_many :balances
+  has_many :transactions
   
 end

@@ -12,7 +12,7 @@ module Api
 
       # GET /balances/1
       def show
-        @holder = get_model(@holder_type, @holder_id)
+        @holder = get_epicenter(@holder_type, @holder_id)
         render json: @balance
       end
 

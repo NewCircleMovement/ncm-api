@@ -14,4 +14,6 @@
 #
 
 class Balance < ApplicationRecord
+  belongs_to :holder, :polymorphic => true
+  belongs_to :fruit
 end

@@ -52,22 +52,13 @@ module Api
 
       private
         def set_entities
-          @giver = get_model(params[:giver_type], params[:giver_id])
-          @receiver = get_model(params[:receiver_type], params[:receiver_id])
+          @giver = get_epicenter(params[:giver_type], params[:giver_id])
+          @receiver = get_epicenter(params[:receiver_type], params[:receiver_id])
 
           unless @giver and @receiver
             raise "No such user"
           end
         end
-
-        # def get_model(type, id)
-        #   case type
-        #   when 'user'
-        #     return User.find(id)
-        #   when 'even'
-        #     return Event.find(id)
-        #   end
-        # end
 
         def permitted_params
           params.permit(:giver_id, :giver_type, :receiver_id, :receiver_type, :amount)

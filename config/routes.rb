@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :memberships
   resources :tribes
   resources :movements
   resources :events
@@ -14,8 +15,18 @@ Rails.application.routes.draw do
       resources :events
       resources :fruits
 
-      get 'balances/:holder_type/:holder_id/:fruit_id' => 'balances#show'
-      get 'balances/:holder_type/:holder_id' => 'balances#show_all'
+      namespace :balances do
+        get ':holder_type/:holder_id/:fruit_id' => 'balances#show'
+        get ':holder_type/:holder_id' => 'balances#show_all'
+      end
+
+      scope :memberships do
+        post 'create/:epicenter_type/:epicenter_id' => 'memberships#create'  
+        post 'apply/:epicenter_type/:epicenter_id/:applicant_type/:applicant_id/:membership_id' => 'memberships#apply'
+      end
+      
+
+      
 
       post 'transaction/:giver_type/:giver_id/:receiver_type/:receiver_id/fruit/:fruit_id/amount/:amount' => 'transactions#create'
     end

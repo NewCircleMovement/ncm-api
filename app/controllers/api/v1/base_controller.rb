@@ -7,13 +7,18 @@ module Api
         return "#{prefix}_#{string}"
       end
 
-      def get_model(type, id)
-        case type
+      def get_epicenter(type, id)
+        case type.downcase
+        when 'movement'
+          return Movement.find(id)
+        when 'tribe'
+          return Tribe.find(id)
+        when 'event'
+          return Event.find(id)
         when 'user'
           return User.find(id)
-        when 'even'
-          return Event.find(id)
         end
+        
       end
       
     end

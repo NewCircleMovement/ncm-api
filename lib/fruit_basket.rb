@@ -9,6 +9,16 @@ module FruitBasket
   end
 
 
+  def can_apply?(epicenter, membership)
+    # TODO: check if there is enought fruit and if supply is ok
+    if epicenter.membership_fee_fruit.owner_id == nil
+      return true
+    else
+      return self.has_enough_fruit?(epicenter.membership_fee_fruit, membership.fee)
+    end
+  end
+
+
   def has_enough_fruit?(fruit_id, amount)
     return self.fruit_balance(fruit_id) >= amount
   end
@@ -41,3 +51,10 @@ module FruitBasket
   end
 
 end
+
+
+transaction_record = {
+      :giver_id => 1, :giver_type => "User",
+      :receiver_id => 1, :receiver_type => "Tribe",
+      :fruit_id => 2, :amount => 100
+    }

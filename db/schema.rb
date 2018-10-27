@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_27_111544) do
+ActiveRecord::Schema.define(version: 2018_10_27_143040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,34 @@ ActiveRecord::Schema.define(version: 2018_10_27_111544) do
     t.index ["owner_id", "owner_type"], name: "index_fruits_on_owner_id_and_owner_type"
   end
 
+  create_table "membershipcards", force: :cascade do |t|
+    t.integer "membership_id"
+    t.integer "owner_id"
+    t.string "owner_type"
+    t.integer "epicenter_id"
+    t.string "epicenter_type"
+    t.boolean "active", default: true
+    t.string "payment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["epicenter_id", "epicenter_type"], name: "index_membershipcards_on_epicenter_id_and_epicenter_type"
+    t.index ["membership_id"], name: "index_membershipcards_on_membership_id"
+    t.index ["owner_id", "owner_type"], name: "index_membershipcards_on_owner_id_and_owner_type"
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.integer "owner_id"
+    t.string "owner_type"
+    t.string "name"
+    t.text "description"
+    t.integer "fee"
+    t.integer "gain"
+    t.string "rhythm"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id", "owner_type"], name: "index_memberships_on_owner_id_and_owner_type"
+  end
+
   create_table "movements", force: :cascade do |t|
     t.integer "mother_id", default: 0
     t.string "slug"
@@ -60,6 +88,7 @@ ActiveRecord::Schema.define(version: 2018_10_27_111544) do
     t.jsonb "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_movements_on_slug", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -84,6 +113,7 @@ ActiveRecord::Schema.define(version: 2018_10_27_111544) do
     t.jsonb "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_tribes_on_slug", unique: true
   end
 
   create_table "users", force: :cascade do |t|
