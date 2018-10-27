@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_22_194511) do
+ActiveRecord::Schema.define(version: 2018_10_27_111544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,16 +30,17 @@ ActiveRecord::Schema.define(version: 2018_10_22_194511) do
     t.index ["updated_at"], name: "index_balances_on_updated_at"
   end
 
-  create_table "epicenters", force: :cascade do |t|
-    t.string "type"
-    t.integer "parent_id"
-    t.integer "level"
+  create_table "events", force: :cascade do |t|
     t.string "slug"
     t.string "name"
-    t.string "description"
+    t.jsonb "data"
+    t.integer "caretaker_id"
+    t.integer "owner_id"
+    t.integer "owner_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_epicenters_on_slug"
+    t.index ["caretaker_id"], name: "index_events_on_caretaker_id"
+    t.index ["owner_id", "owner_type"], name: "index_events_on_owner_id_and_owner_type"
   end
 
   create_table "fruits", force: :cascade do |t|
@@ -50,6 +51,15 @@ ActiveRecord::Schema.define(version: 2018_10_22_194511) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["owner_id", "owner_type"], name: "index_fruits_on_owner_id_and_owner_type"
+  end
+
+  create_table "movements", force: :cascade do |t|
+    t.integer "mother_id", default: 0
+    t.string "slug"
+    t.string "name"
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -65,6 +75,23 @@ ActiveRecord::Schema.define(version: 2018_10_22_194511) do
     t.index ["fruit_id"], name: "index_transactions_on_fruit_id"
     t.index ["giver_id", "giver_type"], name: "index_transactions_on_giver_id_and_giver_type"
     t.index ["receiver_id", "receiver_type"], name: "index_transactions_on_receiver_id_and_receiver_type"
+  end
+
+  create_table "tribes", force: :cascade do |t|
+    t.integer "mother_id", default: 0
+    t.string "slug"
+    t.string "name"
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "slug"
+    t.string "name"
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

@@ -8,7 +8,7 @@
 #  owner_id    :integer
 #  owner_type  :string
 #  fruit_id    :integer
-#  amount      :float
+#  amount      :float            default(0.0)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

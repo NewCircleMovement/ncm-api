@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: users
+# Table name: events
 #
 #  id         :bigint(8)        not null, primary key
 #  slug       :string
@@ -10,8 +10,8 @@
 #  updated_at :datetime         not null
 #
 
-class User < Epicenter
-    
+require 'rails_helper'
 
-
-end 
+RSpec.describe Event, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
+end

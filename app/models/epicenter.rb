@@ -1,66 +1,15 @@
-# == Schema Information
-#
-# Table name: epicenters
-#
-#  id          :bigint(8)        not null, primary key
-#  type        :string
-#  parent_id   :integer
-#  level       :integer
-#  slug        :string
-#  name        :string
-#  description :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#
+class Epicenter < ActiveRecord::Base
+    self.abstract_class = true
 
-class Epicenter < ApplicationRecord
-  include FruitBasket
+    include FruitBasket
 
-  self.inheritance_column = :type
+    has_one :fruit, as: :owner, :dependent => :destroy
+    has_many :balances, as: :holder
+    has_many :transactions, as: :giver
 
-  scope :users, -> { where(type: 'User') }
-  scope :events, -> { where(type: 'Event') }
-  scope :centers, -> { where(type: 'Center') }
-
-  has_one :fruit, as: :owner, :dependent => :destroy
-  has_many :balances, as: :holder
-  has_many :transactions, as: :giver
-
-
-  # include type in response
-  def serializable_hash options=nil
-    super.merge "type" => type
-  end
-
-  def self.types
-    %w(Event, User, Center)
-  end
-  
-  def self.get(type)
-    case type
-    when 'Event'
-      return self.events
-    when 'User'
-      return self.users
-    when 'Center'
-      return self.centers
+    def type
+        return self.class.name
     end
-
-  end
-
-  def self.of_type(type)
-    case type
-    when 'Event'
-      return self::Event
-    when 'User'
-      return self::User
-    when 'Center'
-      return self::Center
-    end
-  end
-
-  def to_param
-    self.slug
-  end
+    
 
 end

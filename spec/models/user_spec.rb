@@ -10,8 +10,8 @@
 #  updated_at :datetime         not null
 #
 
-class User < Epicenter
-    
+require 'rails_helper'
 
-
-end 
+RSpec.describe User, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
+end

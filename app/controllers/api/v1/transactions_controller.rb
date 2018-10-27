@@ -1,7 +1,7 @@
 module Api
   module V1
     class TransactionsController < BaseController
-      # before_action :set_type
+      before_action :set_entities
       # before_action :set_epicenter, only: [:show, :update, :destroy]
 
       # def index
@@ -21,16 +21,18 @@ module Api
 
 
       def create
-        giver = Epicenter.find(params[:giver_id])
-        receiver = Epicenter.find(params[:receiver_id])
-        fruit_id = params[:fruit_id]
-        amount = params['amount']
+        fruit = Fruit.find(params[:fruit_id])
 
-        if giver.has_enough_fruit?(fruit_id, amount)
-          giver.give_fruit_to(receiver, fruit_id, amount)
-          render json: { :success => true, :response => 'Successful transaction' }, status: 200
+        if fruit
+          amount = params['amount'].to_i
+          if @giver.has_enough_fruit?(fruit.id, amount)
+            @giver.give_fruit_to(@receiver, fruit.id, amount)
+            render json: { :success => true, :response => 'Successful transaction' }, status: 200
+          else
+            render json: { :success => false, :response => 'Not enough fruit' }, status: 202
+          end
         else
-          render json: { :success => false, :response => 'Not enough fruit' }, status: 202
+          render json: { :success => false, :response => 'No such fruit'}, status: 202
         end
       end
 
@@ -48,19 +50,24 @@ module Api
       # end
 
 
-      # private
-      #   def set_type
-      #     @type = params[:type]
-      #   end
+      private
+        def set_entities
+          @giver = get_model(params[:giver_type], params[:giver_id])
+          @receiver = get_model(params[:receiver_type], params[:receiver_id])
 
-      #   def set_epicenter
-      #     epicenters = Epicenter.get(@type)
-      #     if params['id'].is_integer?
-      #       @epicenter = epicenters.find_by(id: params[:id])
-      #     else
-      #       @epicenter = epicenters.find_by(slug: params[:id])
-      #     end
-      #   end
+          unless @giver and @receiver
+            raise "No such user"
+          end
+        end
+
+        # def get_model(type, id)
+        #   case type
+        #   when 'user'
+        #     return User.find(id)
+        #   when 'even'
+        #     return Event.find(id)
+        #   end
+        # end
 
         def permitted_params
           params.permit(:giver_id, :giver_type, :receiver_id, :receiver_type, :amount)
