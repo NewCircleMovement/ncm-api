@@ -1,22 +1,23 @@
 module Api
   module V1
     class MembershipsController < BaseController
-      before_action :set_epicenter, only: ['create', 'apply']
+      before_action :set_epicenter
+      before_action :set_membership, only: [:show, :update, :destroy, :apply]
       before_action :set_applicant, only: ['apply']
 
-      # GET /memberships
+
       def index
-        @memberships = Membership.all
+        @memberships = @epicenter.memberships
 
         render json: @memberships
       end
 
-      # GET /memberships/1
+
       def show
         render json: @membership
       end
 
-      # POST /memberships
+
       def create
         @membership = @epicenter.new(membership_params)
         if @membership.save
@@ -26,8 +27,8 @@ module Api
         end
       end
 
-      def apply
-        if @applicant.can_apply?(@epicenter, @membership)
+      def apply      
+        if @applicant.can_apply_for?(@membership)
           if @epicenter.give_membership_to(@applicant, @membership)
             render json: { :success => true, :response => 'Successful created membership' }, status: 200
           else
@@ -39,7 +40,6 @@ module Api
       end
 
 
-      # PATCH/PUT /memberships/1
       def update
         if @membership.update(membership_params)
           render json: @membership
@@ -48,30 +48,33 @@ module Api
         end
       end
 
-      # DELETE /memberships/1
+
       def destroy
         @membership.destroy
       end
 
+
       private
         # Use callbacks to share common setup or constraints between actions.
-        def set_epicenter
+        def set_epicenter          
           @epicenter = get_epicenter(params[:epicenter_type], params[:epicenter_id])
           if not @epicenter
             raise ActionController::RoutingError.new('Epicenter not found')
           end
         end
 
-        def set_applicant
-          @applicant = get_epicenter(params[:applicant_type], params[:applicant_id])
+        def set_membership
           @membership = @epicenter.memberships.find(params[:membership_id])
-          if not @applicant
-            raise ActionController::RoutingError.new('Applicant not found')
-          end
           if not @membership
             raise ActionController::RoutingError.new('Membership not found')
           end
+        end
 
+        def set_applicant
+          @applicant = get_epicenter(params[:applicant_type], params[:applicant_id])
+          if not @applicant
+            raise ActionController::RoutingError.new('Applicant not found')
+          end
         end
 
         # Only allow a trusted parameter "white list" through.

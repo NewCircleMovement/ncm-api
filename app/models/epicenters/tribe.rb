@@ -14,5 +14,5 @@
 class Tribe < Epicenter
   belongs_to :mother, :class_name => "Movement", :foreign_key => 'mother_id'
   # has_many :memberships, through: :membershipcards, source: :owner, source_type: 'Tribe'
-  has_many :users, through: :membershipcards, source: :owner, source_type: 'User'
+  has_many :user_members, through: :membershipcards, source: :owner, source_type: 'User'
 end

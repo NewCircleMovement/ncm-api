@@ -52,7 +52,7 @@
                   "type": "integer"
                 },
                 "owner_type": {
-                  "type": "integer"
+                  "type": "string"
                 }
               },
               "required": [
@@ -116,7 +116,7 @@
                   "type": "integer"
                 },
                 "owner_type": {
-                  "type": "integer"
+                  "type": "string"
                 }
               },
               "required": [
@@ -173,7 +173,7 @@
                   "type": "integer"
                 },
                 "owner_type": {
-                  "type": "integer"
+                  "type": "string"
                 }
               },
               "required": [
@@ -181,6 +181,299 @@
                 "name"
               ]
             }
+          }
+        }
+      }
+    },
+    "/api/v1/fruits": {
+      "get": {
+        "summary": "Retrieves list of fruits",
+        "tags": [
+          "fruits"
+        ],
+        "responses": {
+          "200": {
+            "description": "fruits retrieved"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a fruit",
+        "tags": [
+          "fruits"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "fruit",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "decription": "ID of fruit"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of fruit"
+                },
+                "owner_id": {
+                  "type": "integer",
+                  "description": "Owner id of fruit"
+                },
+                "owner_type": {
+                  "type": "integer",
+                  "description": "Owner type of fruit, e.g. Movement, Tribe, User"
+                },
+                "monthly_yield": {
+                  "type": "float",
+                  "description": "Yield of fruits per month"
+                },
+                "monthly_decay": {
+                  "type": "float",
+                  "description": "Rate of decay per month"
+                }
+              },
+              "required": [
+                "name",
+                "owner_id",
+                "owner_type",
+                "monthly_decay"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "fruit created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/fruits/{id}": {
+      "put": {
+        "summary": "Updates a fruit by ID",
+        "tags": [
+          "fruits"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "fruit",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "decription": "ID of fruit"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of fruit"
+                },
+                "owner_id": {
+                  "type": "integer",
+                  "description": "Owner id of fruit"
+                },
+                "owner_type": {
+                  "type": "integer",
+                  "description": "Owner type of fruit, e.g. Movement, Tribe, User"
+                },
+                "monthly_yield": {
+                  "type": "float",
+                  "description": "Yield of fruits per month"
+                },
+                "monthly_decay": {
+                  "type": "float",
+                  "description": "Rate of decay per month"
+                }
+              },
+              "required": [
+                "name",
+                "owner_id",
+                "owner_type"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "fruit updated"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieves a fruit by ID",
+        "tags": [
+          "fruits"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "fruit not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "decription": "ID of fruit"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of fruit"
+                },
+                "owner_id": {
+                  "type": "integer",
+                  "description": "Owner id of fruit"
+                },
+                "owner_type": {
+                  "type": "integer",
+                  "description": "Owner type of fruit, e.g. Movement, Tribe, User"
+                },
+                "monthly_yield": {
+                  "type": "float",
+                  "description": "Yield of fruits per month"
+                },
+                "monthly_decay": {
+                  "type": "float",
+                  "description": "Rate of decay per month"
+                }
+              },
+              "required": [
+                "id",
+                "name"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/epicenters/{epicenter_type}/{epicenter_id}/memberships": {
+      "get": {
+        "summary": "Retrieves list of epicenter memberships",
+        "tags": [
+          "memberships"
+        ],
+        "parameters": [
+          {
+            "name": "epicenter_type",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "epicenter_id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "memberships retrieved"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a membership for the corresponding epicenter",
+        "tags": [
+          "memberships"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "membership",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "decription": "ID of fruit"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of fruit"
+                },
+                "owner_id": {
+                  "type": "integer",
+                  "description": "Owner id of fruit"
+                },
+                "owner_type": {
+                  "type": "integer",
+                  "description": "Owner type of fruit, e.g. Movement, Tribe, User"
+                },
+                "monthly_yield": {
+                  "type": "float",
+                  "description": "Yield of memberships per month"
+                },
+                "monthly_decay": {
+                  "type": "float",
+                  "description": "Rate of decay per month"
+                }
+              },
+              "required": [
+                "name",
+                "monthly_decay"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "membership created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/epicenters/{epicenter_type}/{epicenter_id}/memberships/{membership_id}/apply/{applicant_type}/{applicant_id}": {
+      "post": {
+        "summary": "Creates a membership for the corresponding membership and applicant",
+        "tags": [
+          "memberships"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "membership created"
+          },
+          "422": {
+            "description": "invalid request"
           }
         }
       }

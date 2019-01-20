@@ -29,12 +29,12 @@ describe 'users API' do
       }
 
       response '201', 'user created' do
-        let(:user) { { name: 'Tinkuy' } }
+        let(:user) { { name: 'Egon Olsen' } }
         run_test!
       end
 
       response '422', 'invalid request' do
-        let(:user) { { slug: 'tinkuy' } }
+        let(:user) { { slug: 'egon_olsen' } }
         run_test!
       end
     end

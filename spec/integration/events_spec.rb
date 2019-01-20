@@ -7,7 +7,7 @@ EVENT_PROPERTIES = {
   data: { type: :object },
   caretaker_id: { type: :integer },
   owner_id: { type: :integer },
-  owner_type: { type: :integer }
+  owner_type: { type: :string }
 }
 
 
