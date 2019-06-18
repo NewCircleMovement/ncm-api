@@ -14,8 +14,27 @@
 #
 
 class Event < Epicenter
-  belongs_to :mother, :class_name => "Tribe", :foreign_key => 'mother_id'
+  include BetweenDates
+  
+  # scope :between, -> (start_date = nil, end_date = nil, field = 'created_at') {
+  #   if start_date and end_date
+  #     where("#{self.table_name}.#{field} BETWEEN :start AND :end", start: start_date.beginning_of_day, end: end_date.end_of_day)
+  #   elsif start_date
+  #     where("#{self.table_name}.#{field} >= ?", start_date.beginning_of_day)
+  #   elsif end_date
+  #     where("#{self.table_name}.#{field} <= ?", end_date.end_of_day)
+  #   else
+  #     all
+  #   end
+  # }
 
-  belongs_to :owner, :polymorphic => true
-  belongs_to :caretaker, :class_name => "User", :foreign_key => 'id'
+
+  # belongs_to :mother, :class_name => "Tribe", :foreign_key => 'mother_id'
+  belongs_to :owner, polymorphic: true
+  belongs_to :caretaker, foreign_key: :caretaker_id, class_name: 'User', optional: true
+
+  validates :slug, :presence => true, :uniqueness => true
+  validates :name, :presence => true
+  validates :caretaker_id, :presence => true
+
 end 

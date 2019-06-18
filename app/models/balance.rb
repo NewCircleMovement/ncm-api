@@ -14,6 +14,8 @@
 #
 
 class Balance < ApplicationRecord
+  include BetweenDates
+  
   belongs_to :holder, :polymorphic => true
   belongs_to :fruit
 end

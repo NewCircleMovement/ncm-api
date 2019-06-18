@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_05_192032) do
+ActiveRecord::Schema.define(version: 2019_01_22_183312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,9 +36,11 @@ ActiveRecord::Schema.define(version: 2018_11_05_192032) do
     t.jsonb "data"
     t.integer "caretaker_id"
     t.integer "owner_id"
-    t.integer "owner_type"
+    t.string "owner_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "date"
+    t.time "time"
     t.index ["caretaker_id"], name: "index_events_on_caretaker_id"
     t.index ["owner_id", "owner_type"], name: "index_events_on_owner_id_and_owner_type"
   end

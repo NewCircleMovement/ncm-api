@@ -9,6 +9,7 @@
 #  monthly_decay :float
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  monthly_yield :integer          default(100)
 #
 
 class Fruit < ApplicationRecord

@@ -11,8 +11,7 @@
 #
 
 class User < Epicenter
-  
-  has_many :memberships, as: :owner
-  has_many :user_memberships, through: :membershipcards, source: :owner, source_type: 'User'
-  
+    
+  has_many :caretaker_events, foreign_key: :caretaker_id, class_name: 'Event'
+
 end 

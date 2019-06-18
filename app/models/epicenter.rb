@@ -6,15 +6,46 @@ class Epicenter < ActiveRecord::Base
   has_one :fruit, as: :owner, :dependent => :destroy
   
   has_many :balances, as: :holder
-  has_many :transactions, as: :giver
+  has_many :transactions_given, class_name: "Transaction", as: :giver
+  has_many :transactions_received, class_name: "Transaction", as: :receiver
 
   has_many :events, as: :owner
   has_many :memberships, as: :owner
+  
+  # epicenter can issue a card or receive an issued card
+  has_many :issued_cards, class_name: "Membershipcard", as: :epicenter, :dependent => :destroy
   has_many :membershipcards, as: :owner, :dependent => :destroy
-    
+  
+  has_many :all_memberships, :through => :membershipcards, :source => :membership
+  has_many :movement_memberships, through: :membershipcards, source: :epicenter, source_type: 'Movement'
+  has_many :tribe_memberships, through: :membershipcards, source: :epicenter, source_type: 'Tribe'
+  has_many :user_memberships, through: :membershipcards, source: :epicenter, source_type: 'User'
+
+  # has_many :all_members, through: :issued_cards, source: :epicenter
+  has_many :movement_members, through: :issued_cards, source: :owner, source_type: 'Movement'
+  has_many :tribe_members, through: :issued_cards, source: :owner, source_type: 'Tribe'
+  has_many :user_members, through: :issued_cards, source: :owner, source_type: 'User'
+
 
   def type
     return self.class.name
+  end
+
+  def all_members
+    movement_members + tribe_members + user_members
+  end
+
+  def all_transactions
+    transactions_given + transactions_received
+  end
+
+  def self.find_epicenter(epicenter_type, epicenter_id)
+    return epicenter_type.classify.constantize.find(epicenter_id)
+  end
+
+  def is_member_of?(membership)
+    membershipcard = self.membershipcards.find_by(:membership_id => membership.id)
+    return membershipcard.active rescue false
   end
 
 

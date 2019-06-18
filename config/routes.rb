@@ -16,9 +16,21 @@ Rails.application.routes.draw do
       resources :fruits
 
       scope "epicenters/(:epicenter_type)/(:epicenter_id)" do
+        resources :events, :key => :event_id
+        
         resources :memberships, :key => :membership_id do
-          post 'apply/:applicant_type/:applicant_id' => 'memberships#apply'
+          post 'enrol/:applicant_type/:applicant_id' => 'memberships#enrol'
         end
+
+        resources :fruits, :key => :fruit_id do
+          post 'give/:amount/:receiver_type/:receiver_id' => 'epicenters#give_fruit'
+          get 'balance' => 'epicenters#balance'
+          get 'transactions' => 'epicenters#transactions'
+          get 'transactions_given' => 'epicenters#transactions_given'
+          get 'transactions_received' => 'epicenters#transactions_received'
+        end
+
+
       end
 
       # resources :movements, :tribes do

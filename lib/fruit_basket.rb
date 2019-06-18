@@ -1,6 +1,6 @@
 module FruitBasket
 
-  def balance(fruit_id)
+  def get_balance(fruit_id)
     balance = self.balances.find_or_initialize_by(:fruit_id => fruit_id)
     if balance.new_record?
       fruit = Fruit.find(fruit_id)
@@ -14,8 +14,8 @@ module FruitBasket
   end
 
 
-  def fruit_amount(fruit_id)
-    balance = self.balances(fruit_id)
+  def get_fruit_amount(fruit_id)
+    balance = self.get_balance(fruit_id)
     if balance
       return balance.amount
     end
@@ -38,7 +38,7 @@ module FruitBasket
 
 
   def has_enough_fruit?(fruit_id, amount)
-    return self.fruit_amount(fruit_id) >= amount
+    return self.get_fruit_amount(fruit_id) >= amount
   end
 
 
@@ -55,11 +55,9 @@ module FruitBasket
   end
 
 
-  # def balances
-  #   return Balance.where(:holder_id => self.holder_id, :holder_type => self.class.name)
-  # end
-
-
+  ##
+  # Gives fruit to receiving epicenter
+  # Creates a transaction record, which updates the fruit balance for both giver and receiver
   def give_fruit_to(receiver, fruit_id, amount)
     transaction_record = {
       :giver_id => self.id, :giver_type => self.type,
@@ -67,7 +65,7 @@ module FruitBasket
       :fruit_id => fruit_id, :amount => amount
     }
 
-    Transaction.create(transaction_record)
+    return Transaction.create(transaction_record)
   end
 
 end
