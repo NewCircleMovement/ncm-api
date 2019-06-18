@@ -1,12 +1,16 @@
 module Api
   module V1
     class EventsController < BaseController
+
+      before_action :set_epicenter
       before_action :set_event, only: [:show, :update, :destroy]
 
       # GET /events
       def index
-        @events = Event.all
-
+        start_date = Date.parse params[:start] rescue nil
+        end_date = Date.parse params[:end] rescue nil
+        @events = @epicenter.events.between(start_date, end_date, field='date')
+      
         render json: @events
       end
 
@@ -17,7 +21,7 @@ module Api
 
       # POST /events
       def create
-        @event = Event.new(event_params)
+        @event = @epicenter.events.build(event_params)
 
         if @event.save
           render json: @event, status: :created, location: @event
@@ -43,12 +47,16 @@ module Api
       private
         # Use callbacks to share common setup or constraints between actions.
         def set_event
-          @event = Event.find(params[:id])
+          if is_integer?(params[:id])
+            @event = @epicenter.events.find(params[:id])
+          else
+            @event = @epicenter.events.find_by(slug: params[:id])
+          end          
         end
 
         # Only allow a trusted parameter "white list" through.
         def event_params
-          params.require(:event).permit(:slug, :name, :record)
+          params.require(:event).permit(:slug, :name, :caretaker_id, :data)
         end
     end
   end

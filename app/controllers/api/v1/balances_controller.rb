@@ -47,6 +47,7 @@ module Api
 
       private
         # Use callbacks to share common setup or constraints between actions.
+
         def set_balance
           @holder_type = params['holder_type']
           @holder_id = params['holder_id']

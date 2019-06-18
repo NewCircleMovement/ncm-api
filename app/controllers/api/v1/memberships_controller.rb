@@ -2,8 +2,8 @@ module Api
   module V1
     class MembershipsController < BaseController
       before_action :set_epicenter
-      before_action :set_membership, only: [:show, :update, :destroy, :apply]
-      before_action :set_applicant, only: ['apply']
+      before_action :set_membership, only: [:show, :update, :destroy, :enrol]
+      before_action :set_applicant, only: [:enrol]
 
 
       def index
@@ -27,15 +27,18 @@ module Api
         end
       end
 
-      def apply      
-        if @applicant.can_apply_for?(@membership)
+      
+      def enrol
+        if @applicant.is_member_of?(@membership)
+          render json: { :success => false, :response => 'Already a member' }, status: 422
+        elsif @applicant.can_apply_for?(@membership)
           if @epicenter.give_membership_to(@applicant, @membership)
             render json: { :success => true, :response => 'Successful created membership' }, status: 200
           else
-            render json: { :success => false, :response => 'Membership could not be created' }, status: 204
+            render json: { :success => false, :response => 'Membership could not be created' }, status: 422
           end
         else
-          render json: { :success => false, :response => "Applicant can not apply"}
+          render json: { :success => false, :response => "Applicant can not apply (not enough fruit)"}, status: 204
         end
       end
 
