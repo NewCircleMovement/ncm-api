@@ -74,7 +74,7 @@ describe 'users API' do
         run_test!
       end
 
-      response '200', 'user not found' do
+      response '404', 'user not found' do
         let(:id) { 'invalid' }
         run_test!
       end

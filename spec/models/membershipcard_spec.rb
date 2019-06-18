@@ -8,6 +8,8 @@
 #  owner_type     :string
 #  epicenter_id   :integer
 #  epicenter_type :string
+#  active         :boolean          default(TRUE)
+#  payment_id     :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

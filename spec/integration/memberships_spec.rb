@@ -45,7 +45,7 @@ describe 'memberships API' do
 
   end
 
-  path '/api/v1/epicenters/{epicenter_type}/{epicenter_id}/memberships/{membership_id}/apply/{applicant_type}/{applicant_id}' do
+  path '/api/v1/epicenters/{epicenter_type}/{epicenter_id}/memberships/{membership_id}/enrol/{applicant_type}/{applicant_id}' do
 
     post 'Creates a membership for the corresponding membership and applicant' do
       tags 'memberships'

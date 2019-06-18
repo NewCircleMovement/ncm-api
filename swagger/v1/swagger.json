@@ -5,11 +5,23 @@
     "version": "v1"
   },
   "paths": {
-    "/api/v1/events": {
+    "/api/v1/epicenters/{epicenter_type}/{epicenter_id}/events": {
       "get": {
-        "summary": "Retrieves list of events",
+        "summary": "Retrieves list of epicenter events",
         "tags": [
           "events"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start date for events to be retrieved"
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "end date for events to be retrieved"
+          }
         ],
         "responses": {
           "200": {
@@ -18,7 +30,7 @@
         }
       },
       "post": {
-        "summary": "Creates an event",
+        "summary": "Creates an epicenter event",
         "tags": [
           "events"
         ],
@@ -34,19 +46,23 @@
               "properties": {
                 "id": {
                   "type": "integer",
-                  "decription": "hello"
+                  "decription": "Event ID"
                 },
                 "slug": {
-                  "type": "string"
+                  "type": "string",
+                  "decription": "unique url slug for event page"
                 },
                 "name": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "Event name"
                 },
                 "data": {
-                  "type": "object"
+                  "type": "object",
+                  "description": "Event data"
                 },
                 "caretaker_id": {
-                  "type": "integer"
+                  "type": "integer",
+                  "description": "ID of events caretaker (always a user)"
                 },
                 "owner_id": {
                   "type": "integer"
@@ -56,7 +72,9 @@
                 }
               },
               "required": [
-                "name"
+                "name",
+                "caretaker_id",
+                "slug"
               ]
             }
           }
@@ -71,9 +89,9 @@
         }
       }
     },
-    "/api/v1/events/{id}": {
+    "/api/v1/epicenters/{epicenter_type}/{epicenter_id}/events/{event_id}": {
       "put": {
-        "summary": "Updates an event by ID",
+        "summary": "Updates an epicenter event by ID or SLUG",
         "tags": [
           "events"
         ],
@@ -85,7 +103,7 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "event_id",
             "in": "path",
             "type": "integer",
             "required": true
@@ -98,19 +116,23 @@
               "properties": {
                 "id": {
                   "type": "integer",
-                  "decription": "hello"
+                  "decription": "Event ID"
                 },
                 "slug": {
-                  "type": "string"
+                  "type": "string",
+                  "decription": "unique url slug for event page"
                 },
                 "name": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "Event name"
                 },
                 "data": {
-                  "type": "object"
+                  "type": "object",
+                  "description": "Event data"
                 },
                 "caretaker_id": {
-                  "type": "integer"
+                  "type": "integer",
+                  "description": "ID of events caretaker (always a user)"
                 },
                 "owner_id": {
                   "type": "integer"
@@ -120,7 +142,9 @@
                 }
               },
               "required": [
-                "name"
+                "name",
+                "caretaker_id",
+                "slug"
               ]
             }
           }
@@ -132,7 +156,7 @@
         }
       },
       "get": {
-        "summary": "Retrieves an event by ID",
+        "summary": "Retrieves an epicenter event by ID or SLUG",
         "tags": [
           "events"
         ],
@@ -141,7 +165,7 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "event_id",
             "in": "path",
             "type": "integer",
             "required": true
@@ -149,25 +173,29 @@
         ],
         "responses": {
           "200": {
-            "description": "event not found",
+            "description": "event found",
             "schema": {
               "type": "object",
               "properties": {
                 "id": {
                   "type": "integer",
-                  "decription": "hello"
+                  "decription": "Event ID"
                 },
                 "slug": {
-                  "type": "string"
+                  "type": "string",
+                  "decription": "unique url slug for event page"
                 },
                 "name": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "Event name"
                 },
                 "data": {
-                  "type": "object"
+                  "type": "object",
+                  "description": "Event data"
                 },
                 "caretaker_id": {
-                  "type": "integer"
+                  "type": "integer",
+                  "description": "ID of events caretaker (always a user)"
                 },
                 "owner_id": {
                   "type": "integer"
@@ -175,12 +203,11 @@
                 "owner_type": {
                   "type": "string"
                 }
-              },
-              "required": [
-                "id",
-                "name"
-              ]
+              }
             }
+          },
+          "404": {
+            "description": "event not found"
           }
         }
       }
@@ -459,7 +486,7 @@
         }
       }
     },
-    "/api/v1/epicenters/{epicenter_type}/{epicenter_id}/memberships/{membership_id}/apply/{applicant_type}/{applicant_id}": {
+    "/api/v1/epicenters/{epicenter_type}/{epicenter_id}/memberships/{membership_id}/enrol/{applicant_type}/{applicant_id}": {
       "post": {
         "summary": "Creates a membership for the corresponding membership and applicant",
         "tags": [
@@ -602,7 +629,7 @@
         ],
         "responses": {
           "200": {
-            "description": "user not found",
+            "description": "user found",
             "schema": {
               "type": "object",
               "properties": {
@@ -624,6 +651,9 @@
                 "name"
               ]
             }
+          },
+          "404": {
+            "description": "user not found"
           }
         }
       }
