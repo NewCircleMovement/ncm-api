@@ -13,5 +13,11 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it "is valid with valid attributes" do
+    params = { name: 'Egon Olsen', slug: 'egon_olsen' }
+    event = User.new(params)
+    expect(event).to be_valid
+  end
+
 end

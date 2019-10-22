@@ -5,9 +5,9 @@ EVENT_PROPERTIES = {
   slug: { type: :string, decription: "unique url slug for event page" },
   name: { type: :string, description: "Event name" },
   data: { type: :object, description: "Event data" },
-  caretaker_id: { type: :integer, description: "ID of events caretaker (always a user)" },
-  owner_id: { type: :integer },
-  owner_type: { type: :string }
+  owner_id: { type: :integer, description: "Epicenter id" },
+  owner_type: { type: :string, description: "Epicenter type, e.g. tribe, movement" }
+  caretaker_id: { type: :integer, description: "Id of caretaker (always a user)" },
 }
 
 
