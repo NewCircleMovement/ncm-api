@@ -22,7 +22,7 @@ namespace :data do
         time: e['starttime']
       }
       puts e
-      {"id"=>11580, "name"=>"Kundalini yoga v/Izolde Toft", "description"=>"",  "duration"=>80, "hour"=>nil, "minute"=>nil, "confirmed"=>true, "user_id"=>1136, "url"=>"https://www.tinkuy.dk/events/11580.json"}
+      {"id"=>11580, "confirmed"=>true, "user_id"=>1136, "url"=>"https://www.tinkuy.dk/events/11580.json"}
     end
 
   end
