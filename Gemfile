@@ -33,7 +33,7 @@ gem "nokogiri", ">= 1.10.4"
 # gem 'mini_magick', '~> 4.8'
 
 # REST client
-gem 'rest-client'
+gem 'rest-client', '>= 2.1.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
