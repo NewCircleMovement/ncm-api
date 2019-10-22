@@ -19,6 +19,9 @@ gem 'annotate'
 gem 'rswag'
 gem 'rspec-rails', '~> 3.5'
 
+# use later version of nokogiri
+gem "nokogiri", ">= 1.10.4"
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
