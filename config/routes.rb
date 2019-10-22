@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
+
   resources :memberships
   resources :tribes
   resources :movements
   resources :events
   resources :users
-  mount Rswag::Ui::Engine => '/api-docs'
-  mount Rswag::Api::Engine => '/api-docs'
+
+  
   
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api, defaults: { format: :json } do
@@ -23,7 +26,7 @@ Rails.application.routes.draw do
         end
 
         resources :fruits, :key => :fruit_id do
-          post 'give/:amount/:receiver_type/:receiver_id' => 'epicenters#give_fruit'
+          post 'give/:amount/to/:receiver_type/:receiver_id' => 'epicenters#give_fruit'
           get 'balance' => 'epicenters#balance'
           get 'transactions' => 'epicenters#transactions'
           get 'transactions_given' => 'epicenters#transactions_given'

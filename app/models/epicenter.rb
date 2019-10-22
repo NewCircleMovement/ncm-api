@@ -48,6 +48,12 @@ class Epicenter < ActiveRecord::Base
     return membershipcard.active rescue false
   end
 
+  ## TRANSACTIONS AND BALANCES
+
+  def get_balance(fruit_id)
+    return balances.find_by(:fruit_id => @fruit_id)
+  end
+
 
   ##
   # Determins if an epicenter can apply for a membership

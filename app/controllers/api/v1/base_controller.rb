@@ -9,6 +9,14 @@ module Api
         end
       end
 
+      def get_epicenter(epicenter_type, epicenter_id)
+        @epicenter = Epicenter.find_epicenter(epicenter_type, epicenter_id)
+        if not @epicenter
+          raise ActionController::RoutingError.new('Epicenter not found')
+        end
+        return @epicenter
+      end
+
       def is_integer?(string)
         return true if Integer(string) rescue false
       end

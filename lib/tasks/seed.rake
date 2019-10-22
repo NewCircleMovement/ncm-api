@@ -5,9 +5,9 @@ namespace :seed do
   task :data => :environment do
 
     puts "Create NewCircleMovement"
-    mother = Movement.find_by(slug: 'new_circle_movement')
+    mother = Movement.find_by(id: 1)
     if not mother
-      mother = Movement.new(mother_id: nil, slug: 'new_circle_movement', name: 'New Circle Movement')
+      mother = Movement.new(mother_id: 1, slug: 'new_circle_movement', name: 'New Circle Movement')
       mother.save(validate: false)
     end
 
@@ -23,7 +23,7 @@ namespace :seed do
 
     puts "Create tinkuy Tribe"
     tinkuy = mother.tribes.find_or_create_by(slug: 'tinkuy', name: 'tinkuy')
-    fruit = Fruit.find_or_create_by(owner_id: tinkuy.id, owner_type: 'Tribe')
+    fruit = Fruit.find_or_create_by(owner_id: tinkuy.id, owner_type: 'Tribe', monthly_decay: 0.1)
 
     if not tinkuy.memberships.present?
       tinkuy.memberships.find_or_create_by(name: "Support", fee: 108, gain: 100, rhythm: 'month')

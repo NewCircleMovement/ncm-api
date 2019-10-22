@@ -1,43 +1,25 @@
 module Api
   module V1
     class BalancesController < BaseController
-      before_action :set_balance_owner, only: [:show, :update, :destroy]
+      before_action :set_balance_holder, only: [:show, :show_all, :update, :destroy]
 
       # GET /balances
       def index
-        @balances = balance.all
+        @balances = Balance.all
 
         render json: @balances
       end
 
       # GET /balances/1
       def show
-        @holder = get_epicenter(@holder_type, @holder_id)
+        @epicenter = get_epicenter(@holder_type, @holder_id)
+        @balance = @epicenter.get_balance(@fruit.id)
         render json: @balance
       end
 
       def show_all
-
-      end
-
-      # POST /balances
-      def create
-        @balance = Balance.new(balance_params)
-
-        if @balance.save
-          render json: @balance, status: :created, location: @balance
-        else
-          render json: @balance.errors, status: :unprocessable_entity
-        end
-      end
-
-      # PATCH/PUT /balances/1
-      def update
-        if @balance.update(balance_params)
-          render json: @balance
-        else
-          render json: @balance.errors, status: :unprocessable_entity
-        end
+        @epicenter = get_epicenter(@holder_type, @holder_id)
+        render json: @epicenter.balances
       end
 
       # DELETE /balances/1
@@ -48,11 +30,13 @@ module Api
       private
         # Use callbacks to share common setup or constraints between actions.
 
-        def set_balance
+        def set_balance_holder
           @holder_type = params['holder_type']
           @holder_id = params['holder_id']
           @fruit_id = params['fruit_id']
         end
+
+
 
         # Only allow a trusted parameter "white list" through.
         def balance_params

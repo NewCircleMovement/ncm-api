@@ -2,7 +2,7 @@ module Api
   module V1
     class EpicentersController < BaseController
       before_action :set_epicenter
-      before_action :set_fruit, only: [:balance, :transactions, :give_fruit]
+      before_action :set_fruit, only: [:balance, :transactions, :transactions_given, :transactions_received, :give_fruit]
 
 
       def balance
@@ -15,7 +15,8 @@ module Api
         start_date = Date.parse params[:start] rescue nil
         end_date = Date.parse params[:end] rescue nil
 
-        @transactions = Transaction.where(fruit_id: @fruit.id).between(start_date, end_date).where('giver_type=? and giver_id=? OR receiver_type=? and receiver_id=?', "User", 1, "User", 1)
+        klass = @epicenter.class.name
+        @transactions = Transaction.where(fruit_id: @fruit.id).between(start_date, end_date).where('giver_type=? and giver_id=? OR receiver_type=? and receiver_id=?', klass, @epicenter.id, klass, @epicenter.id)
 
         render json: @transactions
       end
