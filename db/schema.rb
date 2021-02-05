@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_22_183312) do
+ActiveRecord::Schema.define(version: 2021_02_04_202619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,18 @@ ActiveRecord::Schema.define(version: 2019_01_22_183312) do
     t.jsonb "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "yields", force: :cascade do |t|
+    t.integer "fruit_id"
+    t.integer "receiver_id"
+    t.string "receiver_type"
+    t.float "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_yields_on_created_at"
+    t.index ["fruit_id"], name: "index_yields_on_fruit_id"
+    t.index ["receiver_id", "receiver_type"], name: "index_yields_on_receiver_id_and_receiver_type"
   end
 
 end

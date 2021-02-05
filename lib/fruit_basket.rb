@@ -59,14 +59,14 @@ module FruitBasket
   # Gives fruit to receiving epicenter
   # Creates a transaction record, which updates the fruit balance for both giver and receiver
   def give_fruit_to(receiver, fruit_id, amount)
-    transaction_record = {
-      :giver_id => self.id, :giver_type => self.type,
-      :receiver_id => receiver.id, :receiver_type => receiver.type,
-      :fruit_id => fruit_id, :amount => amount
-    }
-
-    return Transaction.create(transaction_record)
+    return Transaction.make_fruit_transaction(
+      fruit_id=fruit_id, amount=amount, 
+      giver_id=self.id, giver_type=self.type,
+      receiver_id=receiver.id, receiver_type=receiver.type
+    )
   end
+
+  
 
 end
 

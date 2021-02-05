@@ -16,9 +16,14 @@
 
 class Membership < ApplicationRecord
   belongs_to :owner, :polymorphic => true
+  has_many :membershipcards
 
-  def members_count
-    Membershipcard.where(:membership_id => self.id).count
+  def active_cards
+    self.membershipcards.where(active: true)
+  end
+
+  def inactive_cards
+    self.membershipcards.where(active: false)
   end
 
 end

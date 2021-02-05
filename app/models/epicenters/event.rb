@@ -8,9 +8,11 @@
 #  data         :jsonb
 #  caretaker_id :integer
 #  owner_id     :integer
-#  owner_type   :integer
+#  owner_type   :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  date         :date
+#  time         :time
 #
 
 class Event < Epicenter

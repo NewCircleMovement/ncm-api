@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id         :bigint(8)        not null, primary key
+#  slug       :string
+#  name       :string
+#  data       :jsonb
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 - id: 1
   slug: egon_olsen
   name: Egon Olsen

@@ -29,16 +29,16 @@ module Api
 
       
       def enrol
-        if @applicant.is_member_of?(@membership)
-          render json: { :success => false, :response => 'Already a member' }, status: 422
+        if @applicant.has_membership?(@membership)
+          render json: { :success => false, :response => 'Already member' }, status: 422
         elsif @applicant.can_apply_for?(@membership)
           if @epicenter.give_membership_to(@applicant, @membership)
-            render json: { :success => true, :response => 'Successful created membership' }, status: 200
+            render json: { :success => true, :response => 'Successfully created membership' }, status: 200
           else
             render json: { :success => false, :response => 'Membership could not be created' }, status: 422
           end
         else
-          render json: { :success => false, :response => "Applicant can not apply (not enough fruit)"}, status: 204
+          render json: { :success => false, :response => "Not enough fruit"}, status: 204
         end
       end
 
