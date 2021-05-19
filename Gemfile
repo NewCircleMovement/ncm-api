@@ -11,7 +11,7 @@ gem 'rails', '~> 6.1.1'
 gem 'pg', '~> 1.1.4'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 4.3'
 
 # Use rswag for api docs
 gem 'rswag'
